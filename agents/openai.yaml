@@ -1,0 +1,6 @@
+interface:
+  display_name: "Japanese Magazine Cover"
+  short_description: "Create a transparent cover overlay for portraits"
+  default_prompt: "Use $japanese-magazine-cover to create a Japanese magazine cover from the uploaded portrait while preserving the original image."
+policy:
+  allow_implicit_invocation: true

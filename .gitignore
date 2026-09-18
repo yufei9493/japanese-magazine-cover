@@ -1,0 +1,5 @@
+# Generated test images are local QA artifacts, not part of the skill package.
+test-output/
+*.pyc
+__pycache__/
+.DS_Store
