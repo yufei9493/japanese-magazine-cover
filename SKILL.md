@@ -35,6 +35,12 @@ The uploaded portrait is the base layer and is never sent to an image editor as 
    The helper resizes the overlay exactly to the original canvas when dimensions differ, preserves the original canvas and pixels as the base, and writes a JPEG when the output path ends in `.jpg` or `.jpeg` (use PNG only when an alpha-preserving flattened output is explicitly needed). It refuses an overlay without alpha and reports the input dimensions and SHA-256 hash.
 5. Inspect the composite. If placement is wrong, change the overlay and rerun the compositor; never repair the result by editing the flattened composite. Return links to the untouched original, the transparent overlay, and the final composite when they are available.
 
+## Design quality control
+
+Treat the cover as an edited publication layout, not a collection of decorations. Keep one clear masthead, one main headline, and at most three secondary information groups. Leave deliberate breathing room; do not fill every empty area. Use one dominant accent color plus one supporting accent, and limit badges, stickers, arrows, doodles, and barcode elements to only those that support the theme.
+
+Every text block must be readable against the local photograph at full size and in a thumbnail preview. Do not place text over faces, skin, clothing details, balloons, cake, bright highlights, dense branches, or similarly colored/high-frequency areas. Choose text colors by local contrast rather than by a fixed palette. When a text block must cross a detailed photo area, use a small local solid or translucent backing shape, a restrained outline, or a subtle shadow behind that block; never use a full-frame wash. Remove any text or decoration that is low-contrast, crowded, redundant, or too small to read.
+
 ## 完整封面蒙版提示词
 
 生成蒙版时，使用下面这段完整提示词，并在末尾保留“只输出透明蒙版”的约束：
@@ -67,15 +73,20 @@ The uploaded portrait is the base layer and is never sent to an image editor as 
 
 可以加入条形码、日期、价格、期号、圆形标章、贴纸、限定信息等真实杂志元素，让封面信息丰富但保持高级感。
 
-排版必须根据原照片的构图自适应：
+排版必须根据原照片的构图自适应，并遵守专业杂志的留白与可读性：
 不要固定套用模板；
 优先利用天空、墙面、道路、留白区域等自然空间；
 不要遮挡人物的脸和主体；
-不要破坏原照片最重要的视觉焦点。
+不要破坏原照片最重要的视觉焦点；
+只保留一个主 Masthead、一个主标题和不超过三组副信息；
+不要把文字、贴纸、徽章、箭头和条形码堆满画面，保留明确留白；
+文字必须与所在区域形成清晰明度和色彩对比，避开与背景相近的颜色；
+如果照片局部细节太复杂，只在对应文字块后加入小范围底色、描边或阴影，不使用整幅半透明色罩；
+合成后检查全尺寸和缩略图，删除低对比度、重复、拥挤或不可读的元素。
 
 最终效果应该像一本真正发行的日本时尚 / 生活方式杂志封面，而不是一张普通图片加文字。
 
-这是透明封面蒙版生成任务：只生成文字、图形、装饰和杂志信息，不要生成或重绘任何照片像素。输出必须是带真实 alpha 通道的透明 PNG，尺寸和原照片一致；透明区域保持透明。不要输出完整照片，不要添加不透明全屏背景、照片滤镜、色彩覆盖或水印。
+这是透明封面蒙版生成任务：只生成文字、图形、装饰和杂志信息，不要生成或重绘任何照片像素。输出必须是带真实 alpha 通道的透明 PNG，尺寸和原照片一致；透明区域保持透明。不要输出完整照片，不要添加不透明全屏背景、照片滤镜、色彩覆盖或水印。最终设计要克制、留白明确、层级清楚、文字对比度足够，像经过编辑和印刷审核的真实杂志封面。
 ```
 
 使用这段提示词时，仍然把上传照片作为布局参考和最终合成的底图，不要把它作为需要重绘的编辑目标。
