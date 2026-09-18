@@ -44,12 +44,20 @@ def main() -> int:
         result = Image.alpha_composite(source_rgba, overlay_rgba)
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    # Avoid exhaustive PNG optimization here: for large portraits it can take
-    # long enough to leave a partially written file when the caller times out.
-    result.save(args.output, format="PNG", optimize=False)
+    # Keep the overlay as PNG, but make the flattened deliverable a normal JPG
+    # when the requested output path ends in .jpg/.jpeg.
+    if args.output.suffix.lower() in {".jpg", ".jpeg"}:
+        flattened = result.convert("RGB")
+        flattened.save(args.output, format="JPEG", quality=95, subsampling=0, optimize=False)
+        output_mode = flattened.mode
+        output_format = "JPEG"
+    else:
+        result.save(args.output, format="PNG", optimize=False)
+        output_mode = result.mode
+        output_format = "PNG"
     print(f"original: {args.original} {source_rgba.size} sha256={original_hash}")
     print(f"overlay:  {args.overlay} {overlay_rgba.size} mode={overlay.mode}")
-    print(f"output:   {args.output} {result.size} mode={result.mode}")
+    print(f"output:   {args.output} {result.size} mode={output_mode} format={output_format}")
     return 0
 
 

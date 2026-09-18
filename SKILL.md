@@ -29,10 +29,10 @@ The uploaded portrait is the base layer and is never sent to an image editor as 
    python scripts/compose_cover.py \
      --original /path/to/portrait.jpg \
      --overlay /path/to/cover-overlay.png \
-     --output /path/to/japanese-magazine-cover.png
+     --output /path/to/japanese-magazine-cover.jpg
    ```
 
-   The helper resizes the overlay exactly to the original canvas when dimensions differ, preserves the original canvas and pixels as the base, and writes an RGBA PNG. It refuses an overlay without alpha and reports the input dimensions and SHA-256 hash.
+   The helper resizes the overlay exactly to the original canvas when dimensions differ, preserves the original canvas and pixels as the base, and writes a JPEG when the output path ends in `.jpg` or `.jpeg` (use PNG only when an alpha-preserving flattened output is explicitly needed). It refuses an overlay without alpha and reports the input dimensions and SHA-256 hash.
 5. Inspect the composite. If placement is wrong, change the overlay and rerun the compositor; never repair the result by editing the flattened composite. Return links to the untouched original, the transparent overlay, and the final composite when they are available.
 
 ## 完整封面蒙版提示词
